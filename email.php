@@ -20,13 +20,15 @@ if ( !function_exists( 'wp_new_user_notification' ) ) {
         add_filter( 'wp_mail_content_type', 'wpmail_content_type' );
 
         // user
-        $user = new WP_User( $user_id );
-        $userEmail = stripslashes( $user->user_email );
-        $siteUrl = get_site_url();
-        $logoUrl = plugin_dir_url( __FILE__ ).'/sitelogo.gif';
+        $user                   = new WP_User( $user_id );
+        $userEmail              = stripslashes( $user->user_email );
+        $siteUrl                = get_site_url();
+        $site                   = $siteUrl;
+        $site_without_http      = trim( str_replace( array( 'http://', 'https://' ), '', $site ), '/' );
+        $head_email             = myprefix_get_theme_option('head_email');
 
-        $subject = 'Welcome to MySite.com';
-        $headers = 'From: MySite <noreply@mysite.com>';
+        $subject = 'Welcome to '.$site_without_http;
+        $headers = 'From:'. $head_email;
 
         // admin email
         $message  = "A new user has been created"."\r\n\r\n";
